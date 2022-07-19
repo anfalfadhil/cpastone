@@ -2,15 +2,20 @@ package com.cognixia.jump.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -44,9 +49,18 @@ public class User {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Tweet> tweets;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Like> likes;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Comment> comments;
+
 	
 	public User() {
 		
@@ -110,12 +124,7 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public List<Tweet> getTweets(){
-		
-		return tweets;
-		
-	}
+
 	
 	
 	

@@ -1,29 +1,25 @@
 package com.cognixia.jump.model;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
-public class Tweet implements Serializable{
+public class Tweet{
 	
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,25 +28,32 @@ public class Tweet implements Serializable{
 	@Column(nullable = false)
 	private String text;
 	
-//	@Id
-//	@ManyToOne
-//	@JoinColumn(name = "user_id", referencedColumnName = "id")
-//	private User user;
-//	
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Like> like;
+	
+	
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+	private List<Comment> comments;
+	
 	
 	public Tweet() {
 		
 	}
 
 
-	public Tweet(Integer id, String text) {
+	public Tweet(Integer id, String text, User user, List<Like> like, List<Comment> comments) {
 		super();
 		this.id = id;
 		this.text = text;
-
+		this.user = user;
+		this.like = like;
+		this.comments = comments;
 	}
 
 
@@ -74,15 +77,36 @@ public class Tweet implements Serializable{
 	}
 
 
-//	public User getUser() {
-//		return user;
-//	}
-//
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
-//	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public List<Like> getLike() {
+		return like;
+	}
+
+
+	public void setLike(List<Like> like) {
+		this.like = like;
+	}
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 	
 	
 }

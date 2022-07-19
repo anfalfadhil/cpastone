@@ -70,7 +70,9 @@ public class User {
 		
 	}
 
-	public User(Integer id, @NotBlank String username, @NotBlank String email, @NotBlank String password, Role role,
+	public User(Integer id, @NotBlank String username, 
+			@NotBlank String email, @NotBlank String password, 
+			Role role,
 			boolean enabled) {
 		super();
 		this.id = id;

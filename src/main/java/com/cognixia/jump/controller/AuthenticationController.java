@@ -18,7 +18,7 @@ import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.util.JwtUtil;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin

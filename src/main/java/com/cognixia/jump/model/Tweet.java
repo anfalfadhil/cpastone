@@ -1,16 +1,30 @@
 package com.cognixia.jump.model;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Tweet {
+public class Tweet implements Serializable{
 	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -18,25 +32,25 @@ public class Tweet {
 	@Column(nullable = false)
 	private String text;
 	
-	
-	private Integer parentTweet;      // Is this a subtweet? if so what is the id of the original tweet? 
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")    
-	private User user;
-	
+//	@Id
+//	@ManyToOne
+//	@JoinColumn(name = "user_id", referencedColumnName = "id")
+//	private User user;
+//	
+	@JsonIgnore
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+	private List<Like> like;
 	
 	public Tweet() {
 		
 	}
 
 
-	public Tweet(Integer id, String text, Integer parentTweet, User user) {
+	public Tweet(Integer id, String text) {
 		super();
 		this.id = id;
 		this.text = text;
-		this.parentTweet = parentTweet;
-		this.user = user;
+
 	}
 
 
@@ -60,25 +74,15 @@ public class Tweet {
 	}
 
 
-	public Integer getParentTweet() {
-		return parentTweet;
-	}
-
-
-	public void setParentTweet(Integer parentTweet) {
-		this.parentTweet = parentTweet;
-	}
-
-
-	public User getUser() {
-		return user;
-	}
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
+//	public User getUser() {
+//		return user;
+//	}
+//
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
+//	
 	
 	
 }

@@ -27,12 +27,12 @@ public class Like {
 //	private Tweet tweet;
 	
 	@ManyToOne
-	@JoinColumn(name = "user", referencedColumnName = "id")
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JsonBackReference
 	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name = "tweet", referencedColumnName = "id")
-	@JsonBackReference
 	private Tweet tweet;
 	
 	public Like() {

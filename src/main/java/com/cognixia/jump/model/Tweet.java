@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -36,8 +37,8 @@ public class Tweet implements Serializable{
 //	@JoinColumn(name = "user_id", referencedColumnName = "id")
 //	private User user;
 //	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tweet", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonIgnore
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Like> like;
 	
 	public Tweet() {

@@ -25,6 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
 	
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	
 	@Override
 	protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
 		
@@ -37,23 +40,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 		
 		
-//		http.csrf().disable()
-//			.authorizeRequests()
+		http.csrf().disable()
+			.authorizeRequests()
 //			.antMatchers("/v3/**").permitAll()
 //			.antMatchers("/openapi.html").permitAll()
 //			.antMatchers("/swagger-ui/**").permitAll()
-//			.antMatchers("/api/authenticate").permitAll() // anyone can create token if they're a user
-//			.antMatchers(HttpMethod.POST, "/api/user").permitAll()
+			.antMatchers("/authenticate").permitAll() // anyone can create token if they're a user
+			.antMatchers(HttpMethod.POST, "/user/new").permitAll()
 //			.antMatchers(HttpMethod.GET, "/api/user").hasRole("ADMIN")
 //			.antMatchers("/api/update/game").hasRole("ADMIN")
 //			.antMatchers("/api/add/game").hasRole("ADMIN")
 //			.antMatchers("/api/delete/game/**").hasRole("ADMIN")
-//			.anyRequest().authenticated() // any other API in this project need to be authenticated (token or user info)
-//			.and().sessionManagement()
-//					.sessionCreationPolicy( SessionCreationPolicy.STATELESS ); 
+			.anyRequest().authenticated().and()
+
+			// make sure we use stateless session; session won't be used to
+			// store user's state.
+			
+			.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		
-//		
-//		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
 	}
 	

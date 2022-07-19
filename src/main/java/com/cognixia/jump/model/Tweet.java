@@ -32,11 +32,10 @@ public class Tweet implements Serializable{
 	@Column(nullable = false)
 	private String text;
 	
-//	@Id
-//	@ManyToOne
-//	@JoinColumn(name = "user_id", referencedColumnName = "id")
-//	private User user;
-//	
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Like> like;
@@ -74,15 +73,14 @@ public class Tweet implements Serializable{
 	}
 
 
-//	public User getUser() {
-//		return user;
-//	}
-//
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
-//	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	
 	
 }

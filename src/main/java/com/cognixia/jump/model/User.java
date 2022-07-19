@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -51,18 +52,13 @@ public class User {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
-//	@OneToMany
-//	private List<Tweet> tweets;
-//	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Like> like;
 	
-//	@OneToMany(mappedBy = "user_id")
-//	private List<Tweet> tweet;
-//	
-//	@OneToOne(mappedBy = "user")
-//	private Like like;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Tweet> tweets;
 	
 	
 	

@@ -55,11 +55,11 @@ public class User {
 	private List<Tweet> tweets;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonIgnore
 	private List<Like> likes;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonIgnore
 	private List<Comment> comments;
 
 	

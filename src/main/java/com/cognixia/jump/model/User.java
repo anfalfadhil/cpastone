@@ -2,6 +2,7 @@ package com.cognixia.jump.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 
@@ -44,8 +48,18 @@ public class User {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
-	@OneToMany
-	private List<Tweet> tweets;
+//	@OneToMany
+//	private List<Tweet> tweets;
+//	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Like> like;
+	
+//	@OneToMany(mappedBy = "user_id")
+//	private List<Tweet> tweet;
+//	
+//	@OneToOne(mappedBy = "user")
+//	private Like like;
+	
 	
 	
 	public User() {
@@ -110,12 +124,7 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public List<Tweet> getTweets(){
-		
-		return tweets;
-		
-	}
+
 	
 	
 	

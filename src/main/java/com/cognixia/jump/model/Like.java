@@ -5,10 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -21,20 +18,13 @@ public class Like {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-//	@OneToOne
-//	@JoinColumns({
-//		@JoinColumn(name= "user_id", referencedColumnName = "user_id"),
-//		@JoinColumn(name = "tweet_id", referencedColumnName = "tweet_id")
-//	})
-//	private Tweet tweet;
-	
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@JsonBackReference
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "tweet", referencedColumnName = "id")
+	@JoinColumn(name = "tweet_id", referencedColumnName = "id")
 	private Tweet tweet;
 	
 	public Like() {

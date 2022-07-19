@@ -11,10 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,15 +49,19 @@ public class User {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Like> like;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Tweet> tweets;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Like> likes;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Comment> comments;
+
 	
 	public User() {
 		

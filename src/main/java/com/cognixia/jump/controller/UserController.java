@@ -38,9 +38,11 @@ public class UserController {
 				.body(userRepo.findByUsername(authentication.getName()));
 	}
 	@PostMapping("/new")
-	public ResponseEntity<?> CreateUser(@Valid @RequestBody User user){
+	public ResponseEntity<?> createUser(@RequestBody User user){
 		user.setId(null);
 		user.setPassword(encoder.encode(user.getPassword()));
+		user.setRole(User.Role.ROLE_USER);
+		user.setEnabled(true);
 		User created = userRepo.save(user);
 		return ResponseEntity.status(201).body(created);
 	}
@@ -49,7 +51,7 @@ public class UserController {
 	public ResponseEntity<?> updateUser(@Valid @RequestBody User user) throws Exception {
 		Integer id = user.getId();
 		if(userRepo.findById(id).isEmpty()) {
-			return CreateUser(user);
+			return createUser(user);
 		}
 		user.setPassword(encoder.encode(user.getPassword()));
 		return ResponseEntity.status(200).body(userRepo.save(user));

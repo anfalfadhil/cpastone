@@ -1,6 +1,7 @@
 package com.cognixia.jump.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -85,6 +86,8 @@ public class TweetController {
 		}
 		tweet.setId(null);
 		tweet.setUser(user.get());
+		tweet.setLike(new ArrayList<Like>());
+		tweet.setComments(new ArrayList<Comment>());
 		Tweet created = tweetRepo.save(tweet);
 		return ResponseEntity.status(201).body(created);
 	}
@@ -130,22 +133,29 @@ public class TweetController {
 		}
 	}
 	
-	@PostMapping("/comment")
-	public ResponseEntity<?> newComment(@Valid @RequestBody Comment comment, Authentication authentication, 
-			Principal principal){
+	@PostMapping("/comment/{tw_id}")
+	public ResponseEntity<?> newComment(@PathVariable Integer tw_id, 
+			@Valid @RequestBody Comment comment, 
+			Authentication authentication, Principal principal){
 		Optional<User> user = userRepo.findByUsername(authentication.getName());
 		
 		if(user.isEmpty()) {
 			return ResponseEntity.status(404).body("User Not Found.");
 		}
-		Optional<Tweet> tw = tweetRepo.findById(comment.getTweet().getId());
+		Optional<Tweet> tw = tweetRepo.findById(tw_id);
 		if(tw.isEmpty()) {
 			return ResponseEntity.status(404).body("Tweet Not Found.");
 		}
+		User u = user.get();
+		Tweet t = tw.get(); 
 		comment.setId(null);
-		comment.setUser(user.get());
-		comment.setTweet(tw.get());
+		comment.setUser(u);
+		comment.setTweet(t);
 		Comment created = commRepo.save(comment);
+		t.setComments(commRepo.findByTweet(t));
+		tweetRepo.save(t);
+		u.setComments(commRepo.findByUser(u));
+		userRepo.save(u);
 		return ResponseEntity.status(201).body(created);
 	}
 	

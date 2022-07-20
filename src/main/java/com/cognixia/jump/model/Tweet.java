@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,11 +36,11 @@ public class Tweet{
 	private User user;
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-	private List<Like> like;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	private List<Like> likes;
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	
 	
@@ -48,12 +49,12 @@ public class Tweet{
 	}
 
 
-	public Tweet(Integer id, String text, User user, List<Like> like, List<Comment> comments) {
+	public Tweet(Integer id, String text, User user, List<Like> likes, List<Comment> comments) {
 		super();
 		this.id = id;
 		this.text = text;
 		this.user = user;
-		this.like = like;
+		this.likes = likes;
 		this.comments = comments;
 	}
 
@@ -88,13 +89,13 @@ public class Tweet{
 	}
 
 
-	public List<Like> getLike() {
-		return like;
+	public List<Like> getLikes() {
+		return likes;
 	}
 
 
-	public void setLike(List<Like> like) {
-		this.like = like;
+	public void setLikes(List<Like> like) {
+		this.likes = like;
 	}
 
 

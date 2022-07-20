@@ -25,9 +25,10 @@ public class Comment {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 	
-	@JsonBackReference
+	
 	@ManyToOne
 	@JoinColumn(name = "tweet_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Tweet tweet;
 	
 	

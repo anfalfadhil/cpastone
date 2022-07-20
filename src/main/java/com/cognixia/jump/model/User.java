@@ -37,17 +37,15 @@ public class User {
 	@NotBlank
 	@Column(unique = true, nullable = false)
 	private String email;
-	@JsonIgnore
+	
 	@NotBlank
 	@Column(nullable = false)
 	private String password;
 	
-	@JsonIgnore
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(columnDefinition = "varchar(255) default 'ROLE_USER'")
 	private Role role;
 	
-	@JsonIgnore
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
@@ -130,9 +128,14 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	
-	
-	
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 	
 	
 }

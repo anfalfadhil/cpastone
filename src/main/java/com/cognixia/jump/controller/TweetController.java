@@ -53,6 +53,11 @@ public class TweetController {
 		Integer id = user.get().getId();
 		List<Tweet> found = tweetRepo.haveSameUser(id);
 		Collections.reverse(found);
+		for (Tweet tw: found) {
+			tw.setComments(commRepo.findByTweet(tw));
+			tw.setLikes(likeRepo.findByTweet(tw));
+		}
+		
 		return ResponseEntity.status(200)
 				.body(found);
 	}
@@ -66,6 +71,9 @@ public class TweetController {
 		Integer id = user.get().getId();
 		List<Tweet> found = tweetRepo.haveSameUser(id);
 		Collections.reverse(found);
+		for (Tweet tw: found) {
+			tw.setComments(commRepo.findByTweet(tw));
+		}
 		return ResponseEntity.status(200)
 				.body(found);
 	}
@@ -73,6 +81,9 @@ public class TweetController {
 	public ResponseEntity<?> allTweets(){
 		List<Tweet> found = tweetRepo.findAll();
 		Collections.reverse(found);
+		for (Tweet tw: found) {
+			tw.setComments(commRepo.findByTweet(tw));
+		}
 		return ResponseEntity.status(200)
 				.body(found);
 	}
@@ -86,7 +97,7 @@ public class TweetController {
 		}
 		tweet.setId(null);
 		tweet.setUser(user.get());
-		tweet.setLike(new ArrayList<Like>());
+		tweet.setLikes(new ArrayList<Like>());
 		tweet.setComments(new ArrayList<Comment>());
 		Tweet created = tweetRepo.save(tweet);
 		return ResponseEntity.status(201).body(created);

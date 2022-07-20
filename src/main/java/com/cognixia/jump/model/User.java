@@ -54,7 +54,7 @@ public class User {
 	@JsonIgnore
 	private List<Tweet> tweets;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tweet", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Like> likes;
 	

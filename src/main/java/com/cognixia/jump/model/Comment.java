@@ -1,7 +1,7 @@
 package com.cognixia.jump.model;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Entity;import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Comment {
@@ -22,11 +23,12 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@JsonBackReference
 	private User user;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "tweet_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Tweet tweet;
 	
 	

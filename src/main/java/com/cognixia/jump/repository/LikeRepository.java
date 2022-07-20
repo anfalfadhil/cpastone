@@ -7,12 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cognixia.jump.model.Like;
+import com.cognixia.jump.model.Tweet;
+import com.cognixia.jump.model.User;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Integer>{
-	@Query(value = "select * from tweet_like l "
-			+ "where l.tweet_id = ?1 "
-			+ "l.user_id = ?2", 
-			nativeQuery = true)
-	public Optional<Like> findByData(Integer user_id, Integer tweet_id);
+	
+	public Optional<Like> findByUserAndTweet(User user, Tweet tweet);
 }

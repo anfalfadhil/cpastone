@@ -37,15 +37,17 @@ public class User {
 	@NotBlank
 	@Column(unique = true, nullable = false)
 	private String email;
-	
+	@JsonIgnore
 	@NotBlank
 	@Column(nullable = false)
 	private String password;
 	
+	@JsonIgnore
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Role role;
 	
+	@JsonIgnore
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	

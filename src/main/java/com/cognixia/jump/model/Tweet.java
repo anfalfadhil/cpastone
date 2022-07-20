@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -33,11 +34,11 @@ public class Tweet{
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 	
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Like> like;
 	
-	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	
@@ -105,4 +106,8 @@ public class Tweet{
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
+	
+	
+	
 }

@@ -24,16 +24,18 @@ public class Like {
 	
 	@ManyToOne
 	@JoinColumn(name = "tweet_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Tweet tweet;
 	
 	public Like() {
 		
 	}
 
-	public Like(Integer id, Tweet tweet) {
+	public Like(Integer id, Tweet tweet, User user) {
 		super();
 		this.id = id;
 		this.tweet = tweet;
+		this.user = user;
 	}
 
 	public Integer getId() {

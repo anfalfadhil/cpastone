@@ -117,7 +117,14 @@ public class TweetController {
 		if (tw.get().getUser().getId() != user.get().getId()) {
 			return ResponseEntity.status(404).body("Delete your own Tweet.");
 		}
+		for(Comment comm : commRepo.findByTweet(tw.get())){
+			commRepo.deleteById(comm.getId());
+		};
+		for(Like like: likeRepo.findByTweet(tw.get())){
+			likeRepo.deleteById(like.getId());
+		};
 		tweetRepo.deleteById(tw.get().getId());
+		
 		return ResponseEntity.status(200).body(tw.get());
 	}
 	

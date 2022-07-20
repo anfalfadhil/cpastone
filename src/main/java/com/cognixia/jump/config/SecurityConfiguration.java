@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 //			.antMatchers("/v3/**").permitAll()
 //			.antMatchers("/openapi.html").permitAll()
 //			.antMatchers("/swagger-ui/**").permitAll()
-			.antMatchers("/authenticate").permitAll() // anyone can create token if they're a user
+			.antMatchers(HttpMethod.POST, "/authenticate").permitAll() // anyone can create token if they're a user
 			.antMatchers(HttpMethod.POST, "/user/new").permitAll()
 //			.antMatchers(HttpMethod.GET, "/api/user").hasRole("ADMIN")
 //			.antMatchers("/api/update/game").hasRole("ADMIN")

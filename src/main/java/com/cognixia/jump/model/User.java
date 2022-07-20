@@ -43,22 +43,23 @@ public class User {
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(columnDefinition = "varchar(255) default 'ROLE_USER'")
 	private Role role;
 	
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; 
 	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Tweet> tweets;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tweet", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Like> likes;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonIgnore
 	private List<Comment> comments;
 
 	
@@ -127,9 +128,14 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	
-	
-	
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 	
 	
 }

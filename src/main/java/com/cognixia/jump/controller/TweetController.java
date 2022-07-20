@@ -57,7 +57,6 @@ public class TweetController {
 			tw.setComments(commRepo.findByTweet(tw));
 			tw.setLikes(likeRepo.findByTweet(tw));
 		}
-		
 		return ResponseEntity.status(200)
 				.body(found);
 	}
@@ -73,6 +72,7 @@ public class TweetController {
 		Collections.reverse(found);
 		for (Tweet tw: found) {
 			tw.setComments(commRepo.findByTweet(tw));
+			tw.setLikes(likeRepo.findByTweet(tw));
 		}
 		return ResponseEntity.status(200)
 				.body(found);
@@ -83,6 +83,7 @@ public class TweetController {
 		Collections.reverse(found);
 		for (Tweet tw: found) {
 			tw.setComments(commRepo.findByTweet(tw));
+			tw.setLikes(likeRepo.findByTweet(tw));
 		}
 		return ResponseEntity.status(200)
 				.body(found);

@@ -33,8 +33,6 @@ import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.service.MyUserDetailsService;
 import com.cognixia.jump.util.JwtUtil;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 @WebMvcTest(value=AuthenticationController.class, includeFilters = {
@@ -81,8 +79,6 @@ class AuthenticationControllerTest {
 		users.add(alice);
 		
 		when(repo.findAll()).thenReturn(users);
-		Gson gson = new GsonBuilder().create();
-        String data= gson.toJson(users);
 		mvc.perform( post(uri)   // perform get request
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{'username':'alice','password':'pass','email':'ASDF'}")

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,22 @@ public class UserController {
 		return ResponseEntity.status(200)
 				.body(userRepo.findByUsername(authentication.getName()));
 	}
+	
+	
+	// finds user by id
+	@GetMapping("/{id}")
+	public ResponseEntity<?> userById(@PathVariable int id){
+		
+		Optional<User> user = userRepo.findById(id);
+		
+		if(user.isEmpty()) {
+			return ResponseEntity.status(404).body("user not found");
+		}
+		
+		return ResponseEntity.status(201).body(user);
+	}
+	
+	
 	@PostMapping("/new")
 	public ResponseEntity<?> createUser(@RequestBody User user){
 		user.setId(null);

@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/user")

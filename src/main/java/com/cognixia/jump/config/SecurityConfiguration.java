@@ -2,9 +2,11 @@ package com.cognixia.jump.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,18 +18,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.cognixia.jump.filter.JwtRequestFilter;
 
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
 	@Autowired
-	JwtRequestFilter jwtRequestFilter;
+	private JwtRequestFilter jwtRequestFilter;
 	
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
 	@Override
 	protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
 		
@@ -43,8 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()
 			.authorizeRequests()
 //			.antMatchers("/v3/**").permitAll()
-//			.antMatchers("/openapi.html").permitAll()
-//			.antMatchers("/swagger-ui/**").permitAll()
+			.antMatchers("/openapi.html").permitAll()
+			.antMatchers("/swagger-ui/**").permitAll()
 			.antMatchers(HttpMethod.POST, "/authenticate").permitAll() // anyone can create token if they're a user
 			.antMatchers(HttpMethod.POST, "/user/new").permitAll()
 //			.antMatchers(HttpMethod.GET, "/api/user").hasRole("ADMIN")
@@ -60,15 +71,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-		
-	}
-	
-	@Bean
-	protected PasswordEncoder passwordEncoder() {
-		
-		
-		return new BCryptPasswordEncoder();
-
 		
 	}
 	
